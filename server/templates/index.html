@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <title>PPM</title>
+</head>
+<body>
+    <h1>HELLO</h1>
+    {% for message in get_flashed_messages() %}
+        <div class="alert-danger">{{ message }}</div>
+    {% endfor %}
+<!--    <form action="post">-->
+<!--        <h3>Input</h3>-->
+<!--        <input type="text" name="inputText" placeholder="start write..."/>-->
+<!--    </form>-->
+    <h1>Compress file</h1>
+    <form action="/compress" method="post" enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+<!--    <div>-->
+<!--        <h3>Result</h3>-->
+<!--        {% for line in lines %}-->
+<!--        <div>{{line}}</div>-->
+<!--        {% endfor %}-->
+<!--        <div class="result">{{result}}</div>-->
+<!--    </div>-->
+    <h1>Decompress file</h1>
+    <form action="/decompress" method="post" enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+</body>
+</html>
