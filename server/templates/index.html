@@ -6,10 +6,14 @@
     <title>PPM</title>
 </head>
 <body>
-    <h1>HELLO</h1>
+    <h1>PPM ALGORITHM</h1>
     {% for message in get_flashed_messages() %}
         <div class="alert-danger">{{ message }}</div>
     {% endfor %}
+    <div class="">{{ work_time }}</div>
+    <div class="">{{ start_file_size }}</div>
+    <div class="">{{ end_file_size }}</div>
+
 <!--    <form action="post">-->
 <!--        <h3>Input</h3>-->
 <!--        <input type="text" name="inputText" placeholder="start write..."/>-->

@@ -1,4 +1,3 @@
-from flask import flash, redirect
 from werkzeug.routing import ValidationError
 
 ALLOWED_EXTENSIONS = {'txt', }
