@@ -19,7 +19,7 @@
 <!--        <input type="text" name="inputText" placeholder="start write..."/>-->
 <!--    </form>-->
     <h1>Compress file</h1>
-    <form action="/compress" method="post" enctype=multipart/form-data>
+    <form action="/" method="post" enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
@@ -31,7 +31,7 @@
 <!--        <div class="result">{{result}}</div>-->
 <!--    </div>-->
     <h1>Decompress file</h1>
-    <form action="/decompress" method="post" enctype=multipart/form-data>
+    <form action="/?decompress=True" method="post" enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>

@@ -37,7 +37,7 @@ def compress(inp, bitout):
 	enc = arithmeticcoding.ArithmeticEncoder(32, bitout)
 	model = ppmmodel.PpmModel(MODEL_ORDER, 257, 256)
 	history = []
-	
+	file_size = 0
 	while True:
 		# Read and encode one byte
 		symbol = inp.read(1)
@@ -52,10 +52,11 @@ def compress(inp, bitout):
 			if len(history) == model.model_order:
 				history.pop()
 			history.insert(0, symbol)
-	
+		file_size += 1
+
 	encode_symbol(model, history, 256, enc)  # EOF
 	enc.finish()  # Flush remaining code bits
-
+	return file_size
 
 def encode_symbol(model, history, symbol, enc):
 	# Try to use highest order context that exists based on the history suffix, such

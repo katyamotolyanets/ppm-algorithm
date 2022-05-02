@@ -27,64 +27,54 @@ app.add_url_rule(
 )
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def main():
-    return render_template('index.html', **request.args)
+    context = {}
+    if request.method == 'POST':
+        try:
+            file = request.files.get('file', None)
+            FileValidator(file).validate_request_file()
+            filename = f"{time.strftime('%H%M%S')}_{secure_filename(file.filename)}"
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            if 'decompress' in request.args:
+                context = decompressing(file, filepath)
+            else:
+                context = compressing(file, filepath)
+        except ValidationError as err:
+            flash(str(err))
+            return redirect('/')
+        except Exception:
+            flash("Incorrect file data")
+            return redirect('/')
+    return render_template('index.html', **context)
 
 
-@app.route('/compress', methods=['POST'])
-def compress_view():
+@app.route('/uploads/<name>')
+def download_file(name):
     try:
-        file = request.files.get('file', None)
-        FileValidator(file).validate_request_file()
-
-        filename = f"{time.strftime('%H%M%S')}_{secure_filename(file.filename)}"
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        work_time, start_file_size, end_file_size = compressing(file, filepath)
-
         return send_from_directory(directory=app.config["UPLOAD_FOLDER"],
-                                   path=filename,
+                                   path=name,
                                    environ="WSGIEnvironment",
                                    as_attachment=True)
-        return redirect(url_for('main',
-                                work_time=work_time,
-                                start_file_size=start_file_size,
-                                end_file_size=end_file_size))
-        # return redirect(url_for('download_file', name=filename))
-    except ValidationError as err:
-        flash(str(err))
-        return redirect('/')
-    except Exception:
-        flash("Incorrect file data")
+    except NotFound:
+        flash('File with that name not found')
         return redirect('/')
 
-
-# @app.route('/uploads/<name>')
-# def download_file(name):
+#
+# @app.route('/decompress', methods=['POST'])
+# def decompress_view():
 #     try:
-#         return send_from_directory(directory=app.config["UPLOAD_FOLDER"],
-#                                    path=name,
-#                                    environ="WSGIEnvironment",
-#                                    as_attachment=True)
-#     except NotFound:
-#         flash('File with that name not found')
+#         file = request.files.get('file', None)
+#         FileValidator(file).validate_request_file()
+#
+#         filename = f"{time.strftime('%H%M%S')}_{secure_filename(file.filename)}"
+#         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+#         decompressing(file, filepath)
+#
+#         return redirect(url_for('download_file', name=filename))
+#     except ValidationError as err:
+#         flash(str(err))
 #         return redirect('/')
-
-
-@app.route('/decompress', methods=['POST'])
-def decompress_view():
-    try:
-        file = request.files.get('file', None)
-        FileValidator(file).validate_request_file()
-
-        filename = f"{time.strftime('%H%M%S')}_{secure_filename(file.filename)}"
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        decompressing(file, filepath)
-
-        return redirect(url_for('download_file', name=filename))
-    except ValidationError as err:
-        flash(str(err))
-        return redirect('/')
-    except Exception:
-        flash("Incorrect file data")
-        return redirect('/')
+#     except Exception:
+#         flash("Incorrect file data")
+#         return redirect('/')

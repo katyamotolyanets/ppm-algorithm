@@ -32,15 +32,15 @@ def decompress(bitin, out):
 	dec = arithmeticcoding.ArithmeticDecoder(32, bitin)
 	model = ppmmodel.PpmModel(MODEL_ORDER, 257, 256)
 	history = []
-	
+	n = 0
 	while True:
 		# Decode and write one byte
 		symbol = decode_symbol(dec, model, history)
+
 		if symbol == 256:  # EOF symbol
 			break
 		out.write(bytes((symbol,)))
 		model.increment_contexts(history, symbol)
-		
 		if model.model_order >= 1:
 			# Prepend current symbol, dropping oldest symbol if necessary
 			if len(history) == model.model_order:
@@ -61,8 +61,10 @@ def decode_symbol(dec, model, history):
 				break
 		else:  # ctx is not None
 			symbol = dec.read(ctx.frequencies)
+
 			if symbol < 256:
 				return symbol
+
 			# Else we read the context escape symbol, so continue decrementing the order
 	# Logic for order = -1
 	return dec.read(model.order_minus1_freqs)
