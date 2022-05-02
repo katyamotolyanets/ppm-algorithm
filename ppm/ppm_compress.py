@@ -9,8 +9,7 @@
 
 import contextlib
 import sys
-import ppm.arithmeticcoding as arithmeticcoding
-import ppm.ppmmodel as ppmmodel
+from ppm import arithmeticcoding, ppmmodel
 
 
 # Must be at least -1 and match ppm_decompress.py. Warning: Exponential memory usage at O(257^n).

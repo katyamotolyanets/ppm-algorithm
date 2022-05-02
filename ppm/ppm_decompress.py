@@ -4,8 +4,7 @@
 # Usage: python ppm_decompress.py InputFile OutputFile
 
 import sys
-import arithmeticcoding
-import ppmmodel
+from ppm import arithmeticcoding, ppmmodel
 
 
 # Must be at least -1 and match ppm_compress.py. Warning: Exponential memory usage at O(257^n).

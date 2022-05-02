@@ -1,5 +1,4 @@
-import ppm.arithmeticcoding as arithmeticcoding
-
+from ppm import arithmeticcoding
 
 class PpmModel:
 	
