@@ -6,34 +6,43 @@
     <title>PPM</title>
 </head>
 <body>
-    <h1>PPM ALGORITHM</h1>
-    {% for message in get_flashed_messages() %}
-        <div class="alert-danger">{{ message }}</div>
-    {% endfor %}
-    <div class="">{{ work_time }}</div>
-    <div class="">{{ start_file_size }}</div>
-    <div class="">{{ end_file_size }}</div>
+    <header class="header">
+        <a href="/">
+            <h1>PPM ALGORITHM</h1>
+        </a>
+    </header>
+    <div class="errors">
+       {% for message in get_flashed_messages() %}
+            <div class="alert-danger">{{ message }}</div>
+       {% endfor %}
+    </div>
+    <div class="logging-content">
+        {% if work_time or start_file_size or end_file_size %}
+            <div class="logging-header">Function execution information</div>
+        {% endif %}
 
-<!--    <form action="post">-->
-<!--        <h3>Input</h3>-->
-<!--        <input type="text" name="inputText" placeholder="start write..."/>-->
-<!--    </form>-->
+        {% if work_time %}
+            <div class="logging-info">Execution time {{ work_time }} seconds</div>
+        {% endif %}
+
+        {% if start_file_size %}
+            <div class="logging-info">Start file size {{ start_file_size }} bytes</div>
+        {% endif %}
+
+        {% if end_file_size %}
+            <div class="logging-info">Final file size {{ end_file_size }} bytes</div>
+        {% endif %}
+    </div>
     <h1>Compress file</h1>
-    <form action="/" method="post" enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
+    <form action="/" method="post" enctype=multipart/form-data class="file-form">
+      <input class="file-input" type=file name=file>
+      <input class="submit-button" type=submit value=Upload>
     </form>
-<!--    <div>-->
-<!--        <h3>Result</h3>-->
-<!--        {% for line in lines %}-->
-<!--        <div>{{line}}</div>-->
-<!--        {% endfor %}-->
-<!--        <div class="result">{{result}}</div>-->
-<!--    </div>-->
+
     <h1>Decompress file</h1>
-    <form action="/?decompress=True" method="post" enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
+    <form action="/?decompress=True" method="post" enctype=multipart/form-data class="file-form">
+      <input class="file-input" type=file name=file>
+      <input class="submit-button" type=submit value=Upload>
     </form>
 </body>
 </html>

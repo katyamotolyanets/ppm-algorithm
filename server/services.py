@@ -21,7 +21,7 @@ def decompressing(file, filepath):
     with open(filepath, "wb") as out:
         bitin = BitInputStream(file)
         decompress(bitin, out)
-    start_file_size = len(file.read())
+    start_file_size = bitin.count_symbols
     work_time = time.time() - start
     end_file_size = os.stat(filepath).st_size
     return {"work_time": work_time, "start_file_size": start_file_size, "end_file_size": end_file_size}

@@ -486,6 +486,7 @@ class BitInputStream:
         self.currentbyte = 0
         # Number of remaining bits in the current byte, always between 0 and 7 (inclusive)
         self.numbitsremaining = 0
+        self.count_symbols = 0
 
     # Reads a bit from this stream. Returns 0 or 1 if a bit is available, or -1 if
     # the end of stream is reached. The end of stream always occurs on a byte boundary.
@@ -497,6 +498,7 @@ class BitInputStream:
             if len(temp) == 0:
                 self.currentbyte = -1
                 return -1
+            self.count_symbols += 1
             self.currentbyte = temp[0]
             self.numbitsremaining = 8
         assert self.numbitsremaining > 0

@@ -5,8 +5,8 @@ ALLOWED_EXTENSIONS = {'txt', }
 
 class FileValidator:
     messages = {
-        "not_exists": 'No file part',
-        "empty_filename": 'No selected file',
+        "not_exists": 'You should input the file',
+        "empty_filename": 'Empty filename',
         "incorrect_extension": 'Not allowed file extension'
     }
 
